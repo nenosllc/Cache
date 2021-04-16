@@ -16,6 +16,7 @@ public final class CacheStorage<Key: Hashable, Value> {
     /// - parameters:
     ///   - diskConfig: Configuration for disk storage
     ///   - memoryConfig: Optional. Pass config if you want memory cache
+    ///   - transformer: A custom transformer for stored values
     /// - throws: Throw StorageError if any.
     ///
     public convenience init(diskConfig: DiskConfig, memoryConfig: MemoryConfig, transformer: Transformer<Value>) throws {
@@ -50,30 +51,53 @@ public final class CacheStorage<Key: Hashable, Value> {
 
 extension CacheStorage: StorageAware {
     
+    /// Returns all cached keys
+    ///
     public var allKeys: [Key] {
         self.syncStorage.allKeys
     }
     
+    /// Returns all cached objects
+    ///
     public var allObjects: [Value] {
         self.syncStorage.allObjects
     }
     
+    /// Returns the specified entry for the given key
+    ///
+    /// - parameter key: The key of the cached object.
+    /// - returns: An `Entry` object which has metadata, expiry, and an object.
+    ///
     public func entry(forKey key: Key) throws -> Entry<Value> {
         return try self.syncStorage.entry(forKey: key)
     }
     
+    /// Remove an object from the cache.
+    ///
+    /// - parameter key: The key of the cached object.
+    ///
     public func removeObject(forKey key: Key) throws {
         try self.syncStorage.removeObject(forKey: key)
     }
     
+    /// Add an object to the cache.
+    ///
+    /// - parameter value: The value of the cached object.
+    /// - parameter key: The key of the cached object.
+    /// - parameter expiry: A custom expiration for the object.
+    ///
     public func setObject(_ object: Value, forKey key: Key, expiry: Expiry? = nil) throws {
         try self.syncStorage.setObject(object, forKey: key, expiry: expiry)
     }
     
+    /// Removes all cached objects
+    ///
     public func removeAll() throws {
         try self.syncStorage.removeAll()
     }
     
+    /// Removes all expired cache objects
+    ///
     public func removeExpiredObjects() throws {
         try self.syncStorage.removeExpiredObjects()
     }
@@ -84,6 +108,20 @@ public extension CacheStorage {
     
     func transform<U>(transformer: Transformer<U>) -> CacheStorage<Key, U> {
         return CacheStorage<Key, U>(hybridStorage: hybridStorage.transform(transformer: transformer))
+    }
+    
+    subscript(key: Key) -> Value? {
+        get { return try? entry(forKey: key).object }
+        set {
+            guard let value = newValue else {
+                // If nil was assigned using our subscript,
+                // then we remove any value for that key:
+                try? removeObject(forKey: key)
+                return
+            }
+            
+            try? setObject(value, forKey: key)
+        }
     }
     
 }
