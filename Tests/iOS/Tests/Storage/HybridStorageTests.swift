@@ -157,7 +157,7 @@ final class HybridStorageTests: XCTestCase {
     }
   }
 
-  // MARK: - Storage observers
+  // MARK: - CacheStorage observers
 
   func testAddStorageObserver() throws {
     var changes = [StorageChange<String>]()

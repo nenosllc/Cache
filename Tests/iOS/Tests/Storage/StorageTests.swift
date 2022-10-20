@@ -2,13 +2,13 @@ import XCTest
 @testable import Cache
 
 final class StorageTests: XCTestCase {
-  private var storage: Storage<String, User>!
+  private var storage: CacheStorage<String, User>!
   let user = User(firstName: "John", lastName: "Snow")
 
   override func setUp() {
     super.setUp()
 
-    storage = try! Storage<String, User>(
+    storage = try! CacheStorage<String, User>(
       diskConfig: DiskConfig(name: "Thor"),
       memoryConfig: MemoryConfig(),
       transformer: TransformerFactory.forCodable(ofType: User.self)
@@ -97,7 +97,7 @@ final class StorageTests: XCTestCase {
     XCTAssertEqual(cachedObject.firstName, "John")
   }
 
-  // MARK: - Storage observers
+  // MARK: - CacheStorage observers
 
   func testAddStorageObserver() throws {
     var changes = [StorageChange<String>]()
