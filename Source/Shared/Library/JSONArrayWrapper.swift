@@ -3,6 +3,7 @@ import Foundation
 public typealias JSONArray = [JSONDictionary]
 
 public struct JSONArrayWrapper: Codable {
+    
     public let jsonArray: JSONArray
     
     public enum CodingKeys: String, CodingKey {
@@ -37,4 +38,5 @@ public struct JSONArrayWrapper: Codable {
         
         try container.encode(data, forKey: CodingKeys.jsonArray)
     }
+    
 }

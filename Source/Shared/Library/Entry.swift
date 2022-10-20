@@ -1,6 +1,7 @@
 import Foundation
 
 /// A wrapper around cached object and its expiry date.
+/// 
 public struct Entry<T> {
     
     /// Cached object

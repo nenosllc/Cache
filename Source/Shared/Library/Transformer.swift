@@ -1,6 +1,7 @@
 import Foundation
 
 public class Transformer<T> {
+    
     let toData: (T) throws -> Data
     let fromData: (Data) throws -> T
     
@@ -8,4 +9,5 @@ public class Transformer<T> {
         self.toData = toData
         self.fromData = fromData
     }
+    
 }

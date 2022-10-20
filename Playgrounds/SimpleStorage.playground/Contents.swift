@@ -7,7 +7,7 @@ struct User: Codable {
     let id: Int
     let firstName: String
     let lastName: String
-
+    
     var name: String {
         return "\(firstName) \(lastName)"
     }
@@ -17,9 +17,9 @@ let diskConfig = DiskConfig(name: "UserCache")
 let memoryConfig = MemoryConfig(expiry: .never, countLimit: 10, totalCostLimit: 10)
 
 let storage = try! Storage(
-  diskConfig: diskConfig,
-  memoryConfig: memoryConfig,
-  transformer: TransformerFactory.forCodable(ofType: User.self)
+    diskConfig: diskConfig,
+    memoryConfig: memoryConfig,
+    transformer: TransformerFactory.forCodable(ofType: User.self)
 )
 
 let user = User(id: 1, firstName: "John", lastName: "Snow")

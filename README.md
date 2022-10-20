@@ -1,11 +1,6 @@
-![Cache](https://github.com/hyperoslo/Cache/blob/master/Resources/CachePresentation.png)
+![Cache](https://github.com/nenosllc/Cache/blob/master/Resources/CachePresentation.png)
 
-[![CI Status](https://circleci.com/gh/hyperoslo/Cache.png)](https://circleci.com/gh/hyperoslo/Cache)
-[![Version](https://img.shields.io/cocoapods/v/Cache.svg?style=flat)](http://cocoadocs.org/docsets/Cache)
-[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![License](https://img.shields.io/cocoapods/l/Cache.svg?style=flat)](http://cocoadocs.org/docsets/Cache)
-[![Platform](https://img.shields.io/cocoapods/p/Cache.svg?style=flat)](http://cocoadocs.org/docsets/Cache)
-[![Documentation](https://img.shields.io/cocoapods/metrics/doc-percent/Cache.svg?style=flat)](http://cocoadocs.org/docsets/Cache)
+[![CI Status](https://circleci.com/gh/nenosllc/Cache.png)](https://circleci.com/gh/nenosllc/Cache)
 ![Swift](https://img.shields.io/badge/%20in-swift%205-orange.svg)
 
 ## Table of Contents
@@ -30,7 +25,7 @@
 
 ## Description
 
-<img src="https://github.com/hyperoslo/Cache/blob/master/Resources/CacheIcon.png" alt="Cache Icon" align="right" />
+<img src="https://github.com/nenosllc/Cache/blob/master/Resources/CacheIcon.png" alt="Cache Icon" align="right" />
 
 **Cache** doesn't claim to be unique in this area, but it's not another monster
 library that gives you a god's power. It does nothing but caching, but it does it well. It offers a good public API
@@ -40,7 +35,7 @@ Read the story here [Open Source Stories: From Cachable to Generic Storage in Ca
 
 ## Key features
 
-- [x] Work with Swift 4 `Codable`. Anything conforming to `Codable` will be saved and loaded easily by `Storage`.
+- [x] Work with Swift 5 `Codable`. Anything conforming to `Codable` will be saved and loaded easily by `Storage`.
 - [x] Hybrid with memory and disk storage.
 - [X] Many options via `DiskConfig` and `MemoryConfig`.
 - [x] Support `expiry` and clean up of expired objects.
@@ -52,7 +47,6 @@ Read the story here [Open Source Stories: From Cachable to Generic Storage in Ca
 ## Usage
 
 ### Storage
-
 `Cache` is built based on [Chain-of-responsibility pattern](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern), in which there are many processing objects, each knows how to do 1 task and delegates to the next one, so can you compose Storages the way you like.
 
 For now the following Storage are supported
@@ -80,7 +74,6 @@ let storage = try? Storage(
 ```
 
 ### Generic, Type safety and Transformer
-
 All `Storage` now are generic by default, so you can get a type safety experience. Once you create a Storage, it has a type constraint that you don't need to specify type for each operation afterwards.
 
 If you want to change the type, `Cache` offers `transform` functions, look for `Transformer` and `TransformerFactory` for built-in transformers.
@@ -101,7 +94,6 @@ Each transformation allows you to work with a specific type, however the underly
 `Transformer` is necessary because the need of serialising and deserialising objects to and from `Data` for disk persistency. `Cache` provides default `Transformer ` for `Data`, `Codable` and `UIImage/NSImage`
 
 #### Codable types
-
 `Storage` supports any objects that conform to [Codable](https://developer.apple.com/documentation/swift/codable) protocol. You can [make your own things conform to Codable](https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types) so that can be saved and loaded from `Storage`.
 
 The supported types are
@@ -115,7 +107,6 @@ The supported types are
 - `Data`
 
 #### Error handling
-
 Error handling is done via `try catch`. `Storage` throws errors in terms of `StorageError`.
 
 ```swift
@@ -148,7 +139,6 @@ do {
 ```
 
 ### Configuration
-
 Here is how you can play with many configuration options
 
 ```swift
@@ -183,7 +173,6 @@ let memoryConfig = MemoryConfig(
 On iOS, tvOS we can also specify `protectionType` on `DiskConfig` to add a level of security to files stored on disk by your app in the app’s container. For more information, see [FileProtectionType](https://developer.apple.com/documentation/foundation/fileprotectiontype)
 
 ### Sync APIs
-
 `Storage` is sync by default and is `thread safe`, you can access it from any queues. All Sync functions are constrained by `StorageAware` protocol.
 
 ```swift
@@ -212,7 +201,6 @@ try? storage.removeExpiredObjects()
 ```
 
 #### Entry
-
 There is time you want to get object together with its expiry information and meta data. You can use `Entry`
 
 ```swift
@@ -225,7 +213,6 @@ print(entry?.meta)
 `meta` may contain file information if the object was fetched from disk storage.
 
 #### Custom Codable
-
 `Codable` works for simple dictionary like `[String: Int]`, `[String: String]`, ... It does not work for `[String: Any]` as `Any` is not `Codable` conformance, it will raise `fatal error` at runtime. So when you get json from backend responses, you need to convert that to your custom `Codable` objects and save to `Storage` instead.
 
 ```swift
@@ -239,7 +226,6 @@ try? storage.setObject(user, forKey: "character")
 ```
 
 ### Async APIs
-
 In `async` fashion, you deal with `Result` instead of `try catch` because the result is delivered at a later time, in order to not block the current calling queue. In the completion block, you either have `value` or `error`.
 
 You access Async APIs via `storage.async`, it is also thread safe, and you can use Sync and Async APIs in any order you want. All Async functions are constrained by `AsyncStorageAware` protocol.
@@ -289,7 +275,6 @@ storage.async.removeExpiredObjects() { result in
 ```
 
 ### Expiry date
-
 By default, all saved objects have the same expiry as the expiry you specify in `DiskConfig` or `MemoryConfig`. You can overwrite this for a specific object by specifying `expiry` for `setObject`
 
 ```swift
@@ -308,7 +293,6 @@ storage.removeExpiredObjects()
 ```
 
 ## Observations
-
 [Storage](#storage) allows you to observe changes in the cache layer, both on
 a store and a key levels. The API lets you pass any object as an observer,
 while also passing an observation closure. The observation closure will be
@@ -339,7 +323,6 @@ storage.removeAllStorageObservers()
 ```
 
 ## Key observations
-
 ```swift
 let key = "user1"
 
@@ -363,7 +346,6 @@ storage.removeAllKeyObservers()
 ```
 
 ## Handling JSON response
-
 Most of the time, our use case is to fetch some json from backend, display it while saving the json to storage for future uses. If you're using libraries like [Alamofire](https://github.com/Alamofire/Alamofire) or [Malibu](https://github.com/hyperoslo/Malibu), you mostly get json in the form of dictionary, string, or data.
 
 `Storage` can persist `String` or `Data`. You can even save json to `Storage` using `JSONArrayWrapper` and `JSONDictionaryWrapper`, but we prefer persisting the strong typed objects, since those are the objects that you will use to display in UI. Furthermore, if the json data can't be converted to strongly typed objects, what's the point of saving it ? 😉
@@ -390,30 +372,7 @@ Alamofire.request("https://gameofthrones.org/mostFavoriteCharacter").responseStr
 ```
 
 ## What about images
-
 If you want to load image into `UIImageView` or `NSImageView`, then we also have a nice gift for you. It's called [Imaginary](https://github.com/hyperoslo/Imaginary) and uses `Cache` under the hood to make your life easier when it comes to working with remote images.
-
-## Installation
-
-### Cocoapods
-
-**Cache** is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'Cache'
-```
-
-### Carthage
-
-**Cache** is also available through [Carthage](https://github.com/Carthage/Carthage).
-To install just write into your Cartfile:
-
-```ruby
-github "hyperoslo/Cache"
-```
-
-You also need to add `SwiftHash.framework` in your [copy-frameworks](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos) script.
 
 ## Author
 
@@ -421,9 +380,7 @@ You also need to add `SwiftHash.framework` in your [copy-frameworks](https://git
 - Inline MD5 implementation from [SwiftHash](https://github.com/onmyway133/SwiftHash)
 
 ## Contributing
-
-We would love you to contribute to **Cache**, check the [CONTRIBUTING](https://github.com/hyperoslo/Cache/blob/master/CONTRIBUTING.md) file for more info.
+We would love you to contribute to **Cache**, check the [CONTRIBUTING](https://github.com/nenosllc/Cache/blob/master/CONTRIBUTING.md) file for more info.
 
 ## License
-
-**Cache** is available under the MIT license. See the [LICENSE](https://github.com/hyperoslo/Cache/blob/master/LICENSE.md) file for more info.
+**Cache** is available under the MIT license. See the [LICENSE](https://github.com/nenosllc/Cache/blob/master/LICENSE.md) file for more info.

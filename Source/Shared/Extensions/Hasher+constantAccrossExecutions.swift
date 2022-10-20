@@ -2,6 +2,7 @@
 import Foundation
 
 extension Hasher {
+    
     // Stolen from https://github.com/apple/swift/blob/master/stdlib/public/core/SipHash.swift
     // in order to replicate the exact format in bytes
     private struct _State {
@@ -23,4 +24,5 @@ extension Hasher {
         }
         return hasher
     }
+    
 }

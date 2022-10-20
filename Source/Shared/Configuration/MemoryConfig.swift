@@ -20,13 +20,13 @@ public struct MemoryConfig {
     /// Create an in-memory cache configuration.
     ///
     /// - parameter expiry: Expiry date that will be applied by default for every added
-    ///     object if it's not overridden in the add(key: object: expiry: completion:)
-    ///     method.
+    ///   object if it's not overridden in the add(key: object: expiry: completion:)
+    ///   method.
     /// - parameter countLimit: The maximum number of objects in memory the cache should
-    ///     hold. If 0, there is no count limit. The default value is 0.
+    ///   hold. If 0, there is no count limit. The default value is 0.
     /// - parameter totalCostLimit: The maximum total cost that the cache can hold
-    ///     before it starts evicting objects. If 0, there is no total cost limit. The
-    ///     default value is 0.
+    ///   before it starts evicting objects. If 0, there is no total cost limit. The
+    ///   default value is 0.
     ///
     public init(expiry: Expiry = .never, countLimit: UInt = 0, totalCostLimit: UInt = 0) {
         self.expiry = expiry

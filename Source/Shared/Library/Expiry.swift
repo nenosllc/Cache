@@ -1,8 +1,7 @@
 import Foundation
 
-/**
- Helper enum to set the expiration date
- */
+/// Helper enum to set the expiration date
+///
 public enum Expiry {
     
     /// Object will be expired in the nearest future
@@ -28,6 +27,7 @@ public enum Expiry {
     }
     
     /// Checks if cached object is expired according to expiration date
+    ///
     public var isExpired: Bool {
         return date.inThePast
     }

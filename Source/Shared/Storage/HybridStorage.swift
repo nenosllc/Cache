@@ -1,7 +1,19 @@
+//
+//  HybridStorage.swift
+//  Cache
+//
+//  Created by Sam Spencer on 10/20/2022.
+//  Copyright © 2022 nenos, llc. All rights reserved.
+//
+
 import Foundation
 
-/// Use both memory and disk storage. Try on memory first.
+/// Use both memory and disk storage.
+///
+/// Tries in memory first.
+///
 public final class HybridStorage<Key: Hashable, Value> {
+    
     public let memoryStorage: MemoryStorage<Key, Value>
     public let diskStorage: DiskStorage<Key, Value>
     
@@ -23,69 +35,73 @@ public final class HybridStorage<Key: Hashable, Value> {
             return path.contains(fileName)
         }
     }
+    
 }
 
 extension HybridStorage: StorageAware {
-    public var allKeys: [Key] {
-        memoryStorage.allKeys
+    
+    public func allKeys() async -> [Key] {
+        return await memoryStorage.allKeys()
     }
     
-    public var allObjects: [Value] {
-        memoryStorage.allObjects
+    public func allObjects() async -> [Value] {
+        return await memoryStorage.allObjects()
     }
     
-    public func entry(forKey key: Key) throws -> Entry<Value> {
+    public func entry(forKey key: Key) async throws -> Entry<Value> {
         do {
-            return try memoryStorage.entry(forKey: key)
+            return try await memoryStorage.entry(forKey: key)
         } catch {
-            let entry = try diskStorage.entry(forKey: key)
+            let entry = try await diskStorage.entry(forKey: key)
             // set back to memoryStorage
-            memoryStorage.setObject(entry.object, forKey: key, expiry: entry.expiry)
+            try await memoryStorage.setObject(entry.object, forKey: key, expiry: entry.expiry)
             return entry
         }
     }
     
-    public func removeObject(forKey key: Key) throws {
-        memoryStorage.removeObject(forKey: key)
-        try diskStorage.removeObject(forKey: key)
-        
+    public func removeObject(forKey key: Key) async throws {
+        try await memoryStorage.removeObject(forKey: key)
+        try await diskStorage.removeObject(forKey: key)
+
         notifyStorageObservers(about: .remove(key: key))
     }
     
-    public func setObject(_ object: Value, forKey key: Key, expiry: Expiry? = nil) throws {
+    public func setObject(_ object: Value, forKey key: Key, expiry: Expiry?) async throws {
         var keyChange: KeyChange<Value>?
-        
+
         if keyObservations[key] != nil {
-            keyChange = .edit(before: try? self.object(forKey: key), after: object)
+            keyChange = await .edit(before: try? self.object(forKey: key), after: object)
         }
-        
-        memoryStorage.setObject(object, forKey: key, expiry: expiry)
-        try diskStorage.setObject(object, forKey: key, expiry: expiry)
-        
+
+        try await memoryStorage.setObject(object, forKey: key, expiry: expiry)
+        try await diskStorage.setObject(object, forKey: key, expiry: expiry)
+
         if let change = keyChange {
             notifyObserver(forKey: key, about: change)
         }
-        
+
         notifyStorageObservers(about: .add(key: key))
     }
     
-    public func removeAll() throws {
-        memoryStorage.removeAll()
-        try diskStorage.removeAll()
-        
+    public func removeAll() async throws {
+        try await memoryStorage.removeAll()
+        try await diskStorage.removeAll()
+
         notifyStorageObservers(about: .removeAll)
         notifyKeyObservers(about: .remove)
     }
     
-    public func removeExpiredObjects() throws {
-        memoryStorage.removeExpiredObjects()
-        try diskStorage.removeExpiredObjects()
+    public func removeExpiredObjects() async throws {
+        try await memoryStorage.removeExpiredObjects()
+        try await diskStorage.removeExpiredObjects()
         
         notifyStorageObservers(about: .removeExpired)
     }
+    
 }
 
 public extension HybridStorage {
+    
     func transform<U>(transformer: Transformer<U>) -> HybridStorage<Key, U> {
         let storage = HybridStorage<Key, U>(
             memoryStorage: memoryStorage.transform(),
@@ -94,9 +110,11 @@ public extension HybridStorage {
         
         return storage
     }
+    
 }
 
 extension HybridStorage: StorageObservationRegistry {
+    
     @discardableResult
     public func addStorageObserver<O: AnyObject>(
         _ observer: O,
@@ -127,9 +145,11 @@ extension HybridStorage: StorageObservationRegistry {
             closure(self, change)
         }
     }
+    
 }
 
 extension HybridStorage: KeyObservationRegistry {
+    
     @discardableResult
     public func addObserver<O: AnyObject>(
         _ observer: O,
@@ -172,11 +192,15 @@ extension HybridStorage: KeyObservationRegistry {
             closure(self, change)
         }
     }
+    
 }
 
 public extension HybridStorage {
-    /// Returns the total size of the underlying DiskStorage in bytes.
+    
+    /// Returns the total size of the underlying ``DiskStorage`` in bytes.
+    ///
     var totalDiskStorageSize: Int? {
         return self.diskStorage.totalSize
     }
+    
 }

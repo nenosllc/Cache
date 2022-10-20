@@ -3,63 +3,44 @@ import Dispatch
 @testable import Cache
 
 final class AsyncStorageTests: XCTestCase {
-  private var storage: AsyncStorage<String, User>!
-  let user = User(firstName: "John", lastName: "Snow")
-
-  override func setUp() {
-    super.setUp()
-    let memory = MemoryStorage<String, User>(config: MemoryConfig())
-    let disk = try! DiskStorage<String, User>(config: DiskConfig(name: "Async Disk"), transformer: TransformerFactory.forCodable(ofType: User.self))
-    let hybrid = HybridStorage<String, User>(memoryStorage: memory, diskStorage: disk)
-    storage = AsyncStorage(storage: hybrid, serialQueue: DispatchQueue(label: "Async"))
-  }
-
-  override func tearDown() {
-    storage.removeAll(completion: { _ in })
-    super.tearDown()
-  }
-
-  func testSetObject() throws {
-    let expectation = self.expectation(description: #function)
-
-    storage.setObject(user, forKey: "user", completion: { _ in })
-    storage.object(forKey: "user", completion: { result in
-      switch result {
-      case .success(let cachedUser):
-        XCTAssertEqual(cachedUser, self.user)
-        expectation.fulfill()
-      default:
-        XCTFail()
-      }
-    })
-
-    wait(for: [expectation], timeout: 1)
-  }
-
-  func testRemoveAll() {
-    let intStorage = storage.transform(transformer: TransformerFactory.forCodable(ofType: Int.self))
-    let expectation = self.expectation(description: #function)
-    given("add a lot of objects") {
-      Array(0..<100).forEach {
-        intStorage.setObject($0, forKey: "key-\($0)", completion: { _ in })
-      }
+    private var storage: AsyncStorage<String, User>!
+    let user = User(firstName: "John", lastName: "Snow")
+    
+    override func setUp() {
+        super.setUp()
+        let memory = MemoryStorage<String, User>(config: MemoryConfig())
+        let disk = try! DiskStorage<String, User>(config: DiskConfig(name: "Async Disk"), transformer: TransformerFactory.forCodable(ofType: User.self))
+        let hybrid = HybridStorage<String, User>(memoryStorage: memory, diskStorage: disk)
+        storage = AsyncStorage(storage: hybrid)
     }
-
-    when("remove all") {
-      intStorage.removeAll(completion: { _ in })
-    }
-
-    then("all are removed") {
-      intStorage.objectExists(forKey: "key-99", completion: { result in
-        switch result {
-        case .success:
-          XCTFail()
-        default:
-          expectation.fulfill()
+    
+    override func tearDown() {
+        Task {
+            try? await storage.removeAll()
         }
-      })
+        
+        super.tearDown()
     }
-
-    wait(for: [expectation], timeout: 1)
-  }
+    
+    func testSetObject() async throws {
+        try? await storage.setObject(user, forKey: "user", expiry: .never)
+        let result = try! await storage.object(forKey: "user")
+        XCTAssertEqual(result, self.user)
+    }
+    
+    func testRemoveAll() async {
+        let intStorage = await storage.transform(transformer: TransformerFactory.forCodable(ofType: Int.self))
+        
+        await Array(0..<100).asyncForEach { index in
+            try? await intStorage.setObject(index, forKey: "key-\(index)", expiry: .never)
+        }
+        
+        try? await intStorage.removeAll()
+        
+        let exists = await intStorage.objectExists(forKey: "key-99")
+        if exists == true {
+            XCTFail()
+        }
+    }
+    
 }

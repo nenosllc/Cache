@@ -17,6 +17,9 @@
 		2292AB85252A14F50031F3B9 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2292AB84252A14F50031F3B9 /* FileManager+Extensions.swift */; };
 		2292AB86252A14F50031F3B9 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2292AB84252A14F50031F3B9 /* FileManager+Extensions.swift */; };
 		2292AB87252A14F50031F3B9 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2292AB84252A14F50031F3B9 /* FileManager+Extensions.swift */; };
+		A65F40E02901EA5C00B297C8 /* Sequence+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65F40DF2901EA5C00B297C8 /* Sequence+Async.swift */; };
+		A65F40E12901EA5C00B297C8 /* Sequence+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65F40DF2901EA5C00B297C8 /* Sequence+Async.swift */; };
+		A65F40E22901EA5C00B297C8 /* Sequence+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65F40DF2901EA5C00B297C8 /* Sequence+Async.swift */; };
 		BDEDD37D1DBCEB8A007416A6 /* Cache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDEDD3561DBCE5B1007416A6 /* Cache.framework */; };
 		D21B667C1F6A723C00125DE1 /* DataSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CF98531F694FFA00CE8F68 /* DataSerializer.swift */; };
 		D21B667E1F6A723C00125DE1 /* ExpirationMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CF98551F694FFA00CE8F68 /* ExpirationMode.swift */; };
@@ -184,6 +187,7 @@
 		0E79164D250E2B0400A71666 /* Hasher+constantAccrossExecutions+Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Hasher+constantAccrossExecutions+Tests.swift"; sourceTree = "<group>"; };
 		2292AB7A252A14520031F3B9 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		2292AB84252A14F50031F3B9 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
+		A65F40DF2901EA5C00B297C8 /* Sequence+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Async.swift"; sourceTree = "<group>"; };
 		BDEDD3561DBCE5B1007416A6 /* Cache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Cache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDEDD3781DBCEB8A007416A6 /* Cache-tvOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Cache-tvOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D221E5BB20D00D9300BC940E /* MemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryStorage.swift; sourceTree = "<group>"; };
@@ -338,6 +342,7 @@
 				D2CF98501F694FFA00CE8F68 /* Date+Extensions.swift */,
 				2292AB7A252A14520031F3B9 /* URL+Extensions.swift */,
 				2292AB84252A14F50031F3B9 /* FileManager+Extensions.swift */,
+				A65F40DF2901EA5C00B297C8 /* Sequence+Async.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -368,12 +373,12 @@
 		D2CF985A1F694FFA00CE8F68 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				D270147320D101F3003B45C7 /* StorageAware.swift */,
 				D221E5BB20D00D9300BC940E /* MemoryStorage.swift */,
 				D221E5C320D00DDB00BC940E /* DiskStorage.swift */,
-				D270147320D101F3003B45C7 /* StorageAware.swift */,
 				D270147720D1046A003B45C7 /* HybridStorage.swift */,
-				D270147B20D107DA003B45C7 /* SyncStorage.swift */,
 				D270147F20D10982003B45C7 /* CacheStorage.swift */,
+				D270147B20D107DA003B45C7 /* SyncStorage.swift */,
 				D270148320D10E76003B45C7 /* AsyncStorage.swift */,
 				D270148720D11040003B45C7 /* Storage+Transform.swift */,
 				D5A9D1C221144B65005DBD3F /* StorageObservationRegistry.swift */,
@@ -679,7 +684,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Hyper Interaktiv AS";
 				TargetAttributes = {
 					BDEDD3551DBCE5B1007416A6 = {
@@ -790,6 +795,7 @@
 				D270149220D1251E003B45C7 /* TypeWrapper.swift in Sources */,
 				D2D4CC221FA3411300E4A2D5 /* JSONDictionaryWrapper.swift in Sources */,
 				D2D4CC181FA3145000E4A2D5 /* MD5.swift in Sources */,
+				A65F40E22901EA5C00B297C8 /* Sequence+Async.swift in Sources */,
 				D221E5BE20D00D9300BC940E /* MemoryStorage.swift in Sources */,
 				D270148E20D113EA003B45C7 /* Optional+Extension.swift in Sources */,
 				D270147220D1018A003B45C7 /* Transformer.swift in Sources */,
@@ -879,6 +885,7 @@
 				D270149120D1251E003B45C7 /* TypeWrapper.swift in Sources */,
 				D2D4CC211FA3411300E4A2D5 /* JSONDictionaryWrapper.swift in Sources */,
 				D2D4CC171FA3145000E4A2D5 /* MD5.swift in Sources */,
+				A65F40E12901EA5C00B297C8 /* Sequence+Async.swift in Sources */,
 				D221E5BD20D00D9300BC940E /* MemoryStorage.swift in Sources */,
 				D270148D20D113EA003B45C7 /* Optional+Extension.swift in Sources */,
 				D270147120D1018A003B45C7 /* Transformer.swift in Sources */,
@@ -934,6 +941,7 @@
 				D270149020D1251E003B45C7 /* TypeWrapper.swift in Sources */,
 				D2D4CC201FA3411300E4A2D5 /* JSONDictionaryWrapper.swift in Sources */,
 				D2D4CC161FA3145000E4A2D5 /* MD5.swift in Sources */,
+				A65F40E02901EA5C00B297C8 /* Sequence+Async.swift in Sources */,
 				D221E5BC20D00D9300BC940E /* MemoryStorage.swift in Sources */,
 				D270148C20D113EA003B45C7 /* Optional+Extension.swift in Sources */,
 				D2CF98601F694FFA00CE8F68 /* DiskConfig.swift in Sources */,
@@ -1004,7 +1012,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 			};
 			name = Debug;
 		};
@@ -1029,7 +1037,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 			};
 			name = Release;
 		};
@@ -1050,7 +1058,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 			};
 			name = Debug;
 		};
@@ -1069,7 +1077,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 			};
 			name = Release;
 		};
@@ -1079,6 +1087,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "no.hyper.Cache-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1092,6 +1101,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "no.hyper.Cache-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1103,6 +1113,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1112,7 +1123,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SupportFiles/Mac/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "no.hyper.Cache-Mac";
 				PRODUCT_NAME = Cache;
 				SDKROOT = macosx;
@@ -1125,6 +1136,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1134,7 +1146,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SupportFiles/Mac/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "no.hyper.Cache-Mac";
 				PRODUCT_NAME = Cache;
 				SDKROOT = macosx;
@@ -1147,10 +1159,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "no.hyper.Cache-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1162,10 +1175,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "no.hyper.Cache-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1221,13 +1235,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1276,12 +1292,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1299,7 +1317,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/SupportFiles/iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = no.hyper.Cache;
 				PRODUCT_NAME = Cache;
@@ -1320,7 +1338,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/SupportFiles/iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = no.hyper.Cache;
 				PRODUCT_NAME = Cache;

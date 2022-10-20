@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.7
 
 import PackageDescription
 
@@ -18,7 +18,8 @@ let package = Package(
         .testTarget(
             name: "CacheTests",
             dependencies: ["Cache"],
-            path: "Tests"),
+            path: "Tests"
+        ),
     ],
     swiftLanguageVersions: [.v5]
 )

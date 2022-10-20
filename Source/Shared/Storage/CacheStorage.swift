@@ -1,3 +1,11 @@
+//
+//  CacheStorage.swift
+//  Cache
+//
+//  Created by Sam Spencer on 10/20/2022.
+//  Copyright © 2022 nenos, llc. All rights reserved.
+//
+
 import Foundation
 import Dispatch
 
@@ -33,14 +41,8 @@ public final class CacheStorage<Key: Hashable, Value> {
     ///
     public init(hybridStorage: HybridStorage<Key, Value>) {
         self.hybridStorage = hybridStorage
-        self.syncStorage = SyncStorage(
-            storage: hybridStorage,
-            serialQueue: DispatchQueue(label: "Cache.SyncStorage.SerialQueue")
-        )
-        self.asyncStorage = AsyncStorage(
-            storage: hybridStorage,
-            serialQueue: DispatchQueue(label: "Cache.AsyncStorage.SerialQueue")
-        )
+        self.syncStorage = SyncStorage(storage: hybridStorage)
+        self.asyncStorage = AsyncStorage(storage: hybridStorage)
     }
     
     /// Used for async operations
@@ -53,14 +55,14 @@ extension CacheStorage: StorageAware {
     
     /// Returns all cached keys
     ///
-    public var allKeys: [Key] {
-        self.syncStorage.allKeys
+    public func allKeys() async -> [Key] {
+        return await self.syncStorage.allKeys()
     }
     
     /// Returns all cached objects
     ///
-    public var allObjects: [Value] {
-        self.syncStorage.allObjects
+    public func allObjects() async -> [Value] {
+        return await self.syncStorage.allObjects()
     }
     
     /// Returns the specified entry for the given key
@@ -68,16 +70,16 @@ extension CacheStorage: StorageAware {
     /// - parameter key: The key of the cached object.
     /// - returns: An `Entry` object which has metadata, expiry, and an object.
     ///
-    public func entry(forKey key: Key) throws -> Entry<Value> {
-        return try self.syncStorage.entry(forKey: key)
+    public func entry(forKey key: Key) async throws -> Entry<Value> {
+        return try await self.syncStorage.entry(forKey: key)
     }
     
     /// Remove an object from the cache.
     ///
     /// - parameter key: The key of the cached object.
     ///
-    public func removeObject(forKey key: Key) throws {
-        try self.syncStorage.removeObject(forKey: key)
+    public func removeObject(forKey key: Key) async throws {
+        try await self.syncStorage.removeObject(forKey: key)
     }
     
     /// Add an object to the cache.
@@ -86,20 +88,20 @@ extension CacheStorage: StorageAware {
     /// - parameter key: The key of the cached object.
     /// - parameter expiry: A custom expiration for the object.
     ///
-    public func setObject(_ object: Value, forKey key: Key, expiry: Expiry? = nil) throws {
-        try self.syncStorage.setObject(object, forKey: key, expiry: expiry)
+    public func setObject(_ object: Value, forKey key: Key, expiry: Expiry?) async throws {
+        try await self.syncStorage.setObject(object, forKey: key, expiry: expiry)
     }
     
     /// Removes all cached objects
     ///
-    public func removeAll() throws {
-        try self.syncStorage.removeAll()
+    public func removeAll() async throws {
+        try await self.syncStorage.removeAll()
     }
     
     /// Removes all expired cache objects
     ///
-    public func removeExpiredObjects() throws {
-        try self.syncStorage.removeExpiredObjects()
+    public func removeExpiredObjects() async throws {
+        try await self.syncStorage.removeExpiredObjects()
     }
     
 }
@@ -108,20 +110,6 @@ public extension CacheStorage {
     
     func transform<U>(transformer: Transformer<U>) -> CacheStorage<Key, U> {
         return CacheStorage<Key, U>(hybridStorage: hybridStorage.transform(transformer: transformer))
-    }
-    
-    subscript(key: Key) -> Value? {
-        get { return try? entry(forKey: key).object }
-        set {
-            guard let value = newValue else {
-                // If nil was assigned using our subscript,
-                // then we remove any value for that key:
-                try? removeObject(forKey: key)
-                return
-            }
-            
-            try? setObject(value, forKey: key)
-        }
     }
     
 }

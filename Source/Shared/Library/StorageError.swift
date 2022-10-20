@@ -25,4 +25,5 @@ public enum StorageError: Error {
     /// Fail to perform transformation to or from Data
     case transformerFail
     
+    
 }

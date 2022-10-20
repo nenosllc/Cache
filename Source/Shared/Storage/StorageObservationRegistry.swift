@@ -1,17 +1,29 @@
+//
+//  StorageObservationRegistry.swift
+//  Cache
+//
+//  Created by Sam Spencer on 10/20/2022.
+//  Copyright © 2022 nenos, llc. All rights reserved.
+//
+
 import Foundation
 
 /// A protocol used for adding and removing storage observations
 ///
 public protocol StorageObservationRegistry {
+    
     associatedtype S: StorageAware
     
-    /**
-     Registers observation closure which will be removed automatically
-     when the weakly captured observer has been deallocated.
-     - Parameter observer: Any object that helps determine if the observation is still valid
-     - Parameter closure: Observation closure
-     - Returns: Token used to cancel the observation and remove the observation closure
-     */
+    /// Registers observation closure which will be removed automatically when the
+    /// weakly captured observer has been deallocated.
+    ///
+    /// - parameter observer: Any object that helps determine if the observation is
+    ///   still valid
+    /// - parameter closure: Observation closure
+    ///
+    /// - returns: Token used to cancel the observation and remove the observation
+    ///   closure
+    ///
     @discardableResult
     func addStorageObserver<O: AnyObject>(
         _ observer: O,
@@ -19,6 +31,7 @@ public protocol StorageObservationRegistry {
     ) -> ObservationToken
     
     /// Removes all registered key observers
+    ///
     func removeAllStorageObservers()
     
 }

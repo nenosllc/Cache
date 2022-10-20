@@ -3,6 +3,7 @@ import Foundation
 public typealias JSONDictionary = [String: Any]
 
 public struct JSONDictionaryWrapper: Codable {
+    
     public let jsonDictionary: JSONDictionary
     
     public enum CodingKeys: String, CodingKey {
@@ -37,4 +38,5 @@ public struct JSONDictionaryWrapper: Codable {
         
         try container.encode(data, forKey: CodingKeys.jsonDictionary)
     }
+    
 }

@@ -1,75 +1,68 @@
+//
+//  SyncStorage.swift
+//  Cache
+//
+//  Created by Sam Spencer on 10/20/2022.
+//  Copyright © 2022 nenos, llc. All rights reserved.
+//
+
 import Foundation
 import Dispatch
 
 /// Manipulate storage in a "all sync" manner.
+///
 /// Block the current queue until the operation completes.
-public class SyncStorage<Key: Hashable, Value> {
-    public let innerStorage: HybridStorage<Key, Value>
-    public let serialQueue: DispatchQueue
+///
+public actor SyncStorage<Key: Hashable, Value> {
     
-    public init(storage: HybridStorage<Key, Value>, serialQueue: DispatchQueue) {
+    public let innerStorage: HybridStorage<Key, Value>
+    
+    public init(storage: HybridStorage<Key, Value>) {
         self.innerStorage = storage
-        self.serialQueue = serialQueue
     }
+    
 }
 
 extension SyncStorage: StorageAware {
-    public var allKeys: [Key] {
-        var keys: [Key]!
-        serialQueue.sync {
-            keys = self.innerStorage.allKeys
-        }
-        return keys
+    
+    public func allKeys() async -> [Key] {
+        return await self.innerStorage.allKeys()
     }
     
-    public var allObjects: [Value] {
-        var objects: [Value]!
-        serialQueue.sync {
-            objects = self.innerStorage.allObjects
-        }
-        return objects
+    public func allObjects() async -> [Value] {
+        return await self.innerStorage.allObjects()
     }
     
-    public func entry(forKey key: Key) throws -> Entry<Value> {
-        var entry: Entry<Value>!
-        try serialQueue.sync {
-            entry = try innerStorage.entry(forKey: key)
-        }
-        return entry
+    public func entry(forKey key: Key) async throws -> Entry<Value> {
+        return try await innerStorage.entry(forKey: key)
     }
     
-    public func removeObject(forKey key: Key) throws {
-        try serialQueue.sync {
-            try self.innerStorage.removeObject(forKey: key)
-        }
+    public func setObject(_ object: Value, forKey key: Key, expiry: Expiry?) async throws {
+        try await innerStorage.setObject(object, forKey: key, expiry: expiry)
     }
     
-    public func setObject(_ object: Value, forKey key: Key, expiry: Expiry? = nil) throws {
-        try serialQueue.sync {
-            try innerStorage.setObject(object, forKey: key, expiry: expiry)
-        }
+    public func removeObject(forKey key: Key) async throws {
+        try await self.innerStorage.removeObject(forKey: key)
     }
     
-    public func removeAll() throws {
-        try serialQueue.sync {
-            try innerStorage.removeAll()
-        }
+    public func removeAll() async throws {
+        try await innerStorage.removeAll()
     }
     
-    public func removeExpiredObjects() throws {
-        try serialQueue.sync {
-            try innerStorage.removeExpiredObjects()
-        }
+    public func removeExpiredObjects() async throws {
+        try await innerStorage.removeExpiredObjects()
     }
+    
 }
 
 public extension SyncStorage {
+    
     func transform<U>(transformer: Transformer<U>) -> SyncStorage<Key, U> {
         let storage = SyncStorage<Key, U>(
-            storage: innerStorage.transform(transformer: transformer),
-            serialQueue: serialQueue
+            storage: innerStorage.transform(transformer: transformer)
         )
         
         return storage
     }
+    
 }

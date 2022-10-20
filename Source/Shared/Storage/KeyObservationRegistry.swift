@@ -1,3 +1,11 @@
+//
+//  KeyObservationRegistry.swift
+//  Cache
+//
+//  Created by Sam Spencer on 10/20/2022.
+//  Copyright © 2022 nenos, llc. All rights reserved.
+//
+
 import Foundation
 
 /// A protocol used for adding and removing key observations
@@ -6,14 +14,17 @@ public protocol KeyObservationRegistry {
     
     associatedtype S: StorageAware
     
-    /**
-     Registers observation closure which will be removed automatically
-     when the weakly captured observer has been deallocated.
-     - Parameter observer: Any object that helps determine if the observation is still valid
-     - Parameter key: Unique key to identify the object in the cache
-     - Parameter closure: Observation closure
-     - Returns: Token used to cancel the observation and remove the observation closure
-     */
+    /// Registers observation closure which will be removed automatically when the
+    /// weakly captured observer has been deallocated.
+    ///
+    /// - parameter observer: Any object that helps determine if the observation is
+    ///   still valid
+    /// - parameter key: Unique key to identify the object in the cache
+    /// - parameter closure: Observation closure
+    ///
+    /// - returns: Token used to cancel the observation and remove the observation
+    ///   closure
+    ///
     @discardableResult
     func addObserver<O: AnyObject>(
         _ observer: O,
@@ -21,13 +32,14 @@ public protocol KeyObservationRegistry {
         closure: @escaping (O, S, KeyChange<S.Value>) -> Void
     ) -> ObservationToken
     
-    /**
-     Removes observer by the given key.
-     - Parameter key: Unique key to identify the object in the cache
-     */
+    /// Removes observer by the given key.
+    ///
+    /// - parameter key: Unique key to identify the object in the cache
+    ///
     func removeObserver(forKey key: S.Key)
     
     /// Removes all registered key observers
+    ///
     func removeAllKeyObservers()
     
 }

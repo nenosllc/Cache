@@ -2,9 +2,11 @@
 import UIKit
 
 /// Helper UIImage extension.
+///
 extension UIImage {
     
-    /// Checks if image has alpha component
+    /// Checks if image has alpha component.
+    ///
     var hasAlpha: Bool {
         let result: Bool
         
@@ -18,7 +20,8 @@ extension UIImage {
         return result
     }
     
-    /// Convert to data
+    /// Convert to data.
+    ///
     func cache_toData() -> Data? {
         return hasAlpha ? pngData() : jpegData(compressionQuality: 1.0)
     }

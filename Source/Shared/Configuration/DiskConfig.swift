@@ -30,16 +30,16 @@ public struct DiskConfig {
     /// Create a on disk cache configuration.
     ///
     /// - parameter name: The name of disk storage, this will be used as folder name
-    ///     within directory.
+    ///   within directory.
     /// - parameter expiry: Expiry date that will be applied by default for every added
-    ///     object if it's not overridden in the add(key: object: expiry: completion:)
-    ///     method.
+    ///   object if it's not overridden in the add(key: object: expiry: completion:)
+    ///   method.
     /// - parameter maxSize: Maximum size of the disk cache storage (in bytes).
     /// - parameter directory: A folder to store the disk cache contents. Defaults to a
-    ///     prefixed directory in Caches if nil.
+    ///   prefixed directory in Caches if nil.
     /// - parameter protectionType: Data protection is used to store files in an
-    ///     encrypted format on disk and to decrypt them on demand. Support only on iOS and
-    ///     tvOS.
+    ///   encrypted format on disk and to decrypt them on demand. Support only on iOS and
+    ///   tvOS.
     ///
     public init(name: String, expiry: Expiry = .never,
                 maxSize: UInt = 0, directory: URL? = nil,

@@ -1,6 +1,7 @@
 import Foundation
 
-/// Used to wrap Codable object
+/// Used to wrap Codable object.
+/// 
 public struct TypeWrapper<T: Codable>: Codable {
     
     enum CodingKeys: String, CodingKey {
